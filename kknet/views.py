@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.contrib import messages
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
@@ -55,7 +54,6 @@ def search_view(request):
 
     return render(request, 'review_list.html', {
         'images': images,
-        'image_url_prefix': image_url_prefix,
         'selected_category': category,
         'search_query': search_query,
     })
