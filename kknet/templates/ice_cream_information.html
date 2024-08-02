@@ -1,0 +1,21 @@
+{% extends 'board/ice_cream_detail.html' %}
+
+{% block content %}
+    <h2>정보</h2>
+    <ul>
+        {% for info in information %}
+            <li>
+                {{ info.content }} - {{ info.created_at }}
+                <p>구매일: {{ info.purchase_date }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>정보 입력</h2>
+    <form action="{% url 'add_information' ice_cream.pk %}" method="POST">
+        {% csrf_token %}
+        <textarea name="content" placeholder="정보 내용"></textarea>
+        <input type="text" name="discount_password" placeholder="할인 비밀번호">
+        <input type="date" name="purchase_date" placeholder="구매일">
+        <button type="submit">정보 추가</button>
+    </form>
+{% endblock %}
