@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.hashers import make_password, check_password
 
 
 class Icecream(models.Model):
@@ -16,14 +15,14 @@ class Review(models.Model):
     content = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     pw_hash = models.CharField(max_length=128)
-    ice_cream = models.ForeignKey(Icecream, on_delete=models.CASCADE, related_query_name="reviews")
+    ice_cream = models.ForeignKey(Icecream, on_delete=models.CASCADE, related_name="reviews")
     
     
 class Discountinfo(models.Model):
     content = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
     pw_hash = models.CharField(max_length=128)
-    ice_cream = models.ForeignKey(Icecream, on_delete=models.CASCADE)
+    ice_cream = models.ForeignKey(Icecream, on_delete=models.CASCADE, related_name= "informations")
 
 
 

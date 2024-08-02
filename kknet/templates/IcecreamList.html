@@ -1,14 +1,14 @@
 {% extends "header.html" %}
-
+{% load static %}
 {% block content %}
     <div class="list-container">
-        {% if images %}
-            {% for image in images %}
+        {% if ice_creams %}
+            {% for ice_cream in ice_creams %}
                 <div class="image-item">
-                    <a href="{% url 'review_detail' image.name %}">
-                        <div class="image-overlay">
-                            <img src="{{ image_url_prefix }}{{ image.image }}" alt="{{ image.name }}">
-                            <div class="image-name">{{ image.name }}</div>
+                    <a href="{% url 'ice_cream_detail' ice_cream.id %}">
+                        <div class="ice_cream-overlay">
+                            <img src="{% static ice_cream.img %}" alt="{{ ice_cream.name }}">
+                            <div class="image-name">{{ ice_cream.name }}</div>
                         </div>
                     </a>
                 </div>
