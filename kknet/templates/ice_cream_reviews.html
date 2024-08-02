@@ -1,0 +1,25 @@
+{% extends 'board/ice_cream_detail.html' %}
+
+{% block content %}
+    <h2>리뷰</h2>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                {{ review.content }} - {{ review.rating }} 별점
+                <form action="{% url 'delete_review' review.pk %}" method="POST">
+                    {% csrf_token %}
+                    <input type="password" name="password" placeholder="비밀번호">
+                    <button type="submit">삭제</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <h2>리뷰 입력</h2>
+    <form action="{% url 'add_review' ice_cream.pk %}" method="POST">
+        {% csrf_token %}
+        <textarea name="content" placeholder="리뷰 내용"></textarea>
+        <input type="number" name="rating" min="1" max="5" placeholder="별점">
+        <input type="password" name="password" placeholder="비밀번호">
+        <button type="submit">리뷰 추가</button>
+    </form>
+{% endblock %}
