@@ -28,8 +28,6 @@ def ice_cream_list(request):
     else :
         ice_creams = Icecream.objects.all()
         
-    print(ice_creams)
-
     return render(request, 'IcecreamList.html', {
         'ice_creams': ice_creams,
         'query': query,
