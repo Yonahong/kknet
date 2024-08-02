@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.contrib import messages
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
@@ -51,9 +52,44 @@ def search_view(request):
             images = Icecream.objects.filter(category=category, name__icontains=search_query)
         else:
             images = Icecream.objects.filter(category=category)
+=======
+# from django.shortcuts import redirect, render
 
-    image_url_prefix = "/static/images/"
+# # Create your views here.
 
+
+# def ice_cream_main(request):
+#     return redirect('/icecream')
+
+# def ice_cream_list(request):
+#     return render(request, 'ice_cream_list.html', {
+
+#     })
+
+# def review_list(request):
+#     images = Ice.objects.all()
+#     image_url_prefix = '/static/images/'
+#     return render(request, 'review_list.html', {'images': images, 'image_url_prefix': image_url_prefix})
+
+# def search_view(request):
+#     category = request.GET.get('category', 'all')
+#     search_query = request.GET.get('search', '')
+
+#     if category == 'all':
+#         if search_query:
+#             images = Ice.objects.filter(name__icontains=search_query)
+#         else:
+#             images = Ice.objects.all()
+#     else:
+#         if search_query:
+#             images = Ice.objects.filter(category=category, name__icontains=search_query)
+#         else:
+#             images = Ice.objects.filter(category=category)
+>>>>>>> 0be4f513babd5b97dbd7622911318d222624ff8a
+
+#     image_url_prefix = "/static/images/"
+
+<<<<<<< HEAD
     return render(request, 'review_list.html', {
         'images': images,
         'image_url_prefix': image_url_prefix,
@@ -146,3 +182,11 @@ def delete_review(request, pk):
             messages.error(request, '비밀번호가 일치하지 않습니다.')
         return redirect('ice_cream_reviews', pk=review.ice_cream.pk)
     return render(request, 'delete_review.html', {'review': review})
+=======
+#     return render(request, 'review_list.html', {
+#         'images': images,
+#         'image_url_prefix': image_url_prefix,
+#         'selected_category': category,
+#         'search_query': search_query,
+#     })
+>>>>>>> 0be4f513babd5b97dbd7622911318d222624ff8a
