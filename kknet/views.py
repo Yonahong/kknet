@@ -11,6 +11,11 @@ def ice_cream_list(request):
 
     })
 
+def review_list(request):
+    images = Ice.objects.all()
+    image_url_prefix = '/static/images/'
+    return render(request, 'review_list.html', {'images': images, 'image_url_prefix': image_url_prefix})
+
 def search_view(request):
     category = request.GET.get('category', 'all')
     search_query = request.GET.get('search', '')
