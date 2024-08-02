@@ -1,12 +1,14 @@
+from django.contrib import messages
+from django.utils import timezone
 from django.shortcuts import get_object_or_404, redirect, render
 
-from kknet.models import Icecream
+from kknet.models import Discountinfo, Icecream, Review
 from django.db.models import Q
 # Create your views here.
 
 
 def ice_cream_main(request):
-    return redirect('/icecream')
+    return redirect('/icecreams')
 
 def ice_cream_list(request):
     query = request.GET.get('query', '')
@@ -23,12 +25,9 @@ def ice_cream_list(request):
             Q(manufacturer__icontains=query)  
         )
         
-    categories = category.objects.all()
 
-
-    return render(request, 'board/ice_cream_list.html', {
+    return render(request, 'IcecreamList.html', {
         'ice_creams': ice_creams,
-        'categories': categories,
         'query': query,
         'selected_category': category,
     })
@@ -87,3 +86,59 @@ def ice_cream_information(request, pk):
     })
     
 def add_review(request, pk):
+        ice_cream = get_object_or_404(Icecream, pk=pk)
+
+        if request.method == 'POST':
+            content = request.POST.get('content')
+            rating = request.POST.get('rating')
+            password = request.POST.get('password')
+            if content and rating and password:
+                review = Review.objects.create(
+                    ice_cream=ice_cream,
+                    content=content,
+                    rating=int(rating),
+                    password=password,
+                    created_at=timezone.now()
+                )
+                review.save()
+                messages.success(request, '리뷰가 성공적으로 추가되었습니다.')
+            else:
+                messages.error(request, '모든 필드를 입력해주세요.')
+            return redirect('ice_cream_reviews', pk=pk)
+        return render(request, 'board/ice_cream_reviews.html', {'ice_cream': ice_cream})
+
+
+
+def add_information(request, pk):
+    ice_cream = get_object_or_404(Icecream, pk=pk)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        discount_password = request.POST.get('discount_password')
+        purchase_date = request.POST.get('purchase_date')
+        if content and discount_password and purchase_date:
+            information = Discountinfo.objects.create(
+                ice_cream=ice_cream,
+                content=content,
+                discount_password=discount_password,
+                created_at=timezone.now(),
+                purchase_date=purchase_date
+            )
+            information.save()
+            messages.success(request, '정보가 성공적으로 추가되었습니다.')
+        else:
+            messages.error(request, '모든 필드를 입력해주세요.')
+        return redirect('ice_cream_information', pk=pk)
+    return render(request, 'board/ice_cream_information.html', {'ice_cream': ice_cream})
+
+
+def delete_review(request, pk):
+    review = get_object_or_404(Review, pk=pk)
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        if password == review.password:
+            review.delete()
+            messages.success(request, '리뷰가 성공적으로 삭제되었습니다.')
+        else:
+            messages.error(request, '비밀번호가 일치하지 않습니다.')
+        return redirect('ice_cream_reviews', pk=review.ice_cream.pk)
+    return render(request, 'board/delete_review.html', {'review': review})
